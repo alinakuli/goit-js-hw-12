@@ -9,7 +9,6 @@ const form = document.querySelector(".form");
 let page = 1;
 let query;
 const perPage = 15;
-let totalHits;
 let totalPages;
 
 
@@ -25,7 +24,6 @@ form.addEventListener("submit", async (event) => {
         showLoader()
 
         const images = await getImagesByQuery(query, page);
-        console.log(images);
         
         
         if (images.hits.length === 0) {
@@ -41,17 +39,15 @@ form.addEventListener("submit", async (event) => {
             return;
         };
 
-        totalHits = images.totalHits;
-        totalPages = Math.ceil(totalHits / perPage);
+        totalPages = Math.ceil(images.totalHits / perPage);
 
         createGallery(images)
         hideLoader()
         showLoadMoreButton()
         page += 1;
         checkForPages(page, totalPages)
+
     } catch (error) {
-        console.log(error);
-        
         return iziToast.error(
                 {
                     message: 'Something went wrong',
@@ -103,12 +99,9 @@ function checkForPages(page, totalPages) {
 
 function smoothScroll() {
     const firstPicture = document.querySelector(".gallery-item");
-    console.log(firstPicture);
-    
     if (!firstPicture) return;
 
     const height = firstPicture.getBoundingClientRect().height;
-    console.log(height);
 
     window.scrollBy({
         top: height * 2,
