@@ -3,10 +3,10 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 const gallery = document.querySelector(".gallery");
 const loader = document.querySelector(".loader");
+export const loadMore = document.querySelector(".load-more");
 
 export function createGallery(images) {
-    
-const markup = images.map(image => `<li class="gallery-item">
+    const markup = images.hits.map(image => `<li class="gallery-item">
   <a class="gallery-link" href="${image.largeImageURL}">
     <img
       class="gallery-image"
@@ -35,23 +35,31 @@ const markup = images.map(image => `<li class="gallery-item">
 </li>`
     ).join("")
     
-    gallery.innerHTML = markup;
+    gallery.insertAdjacentHTML("beforeend", markup);
 
     const lightbox = new SimpleLightbox(".gallery a", {
-    captionsData: "alt",
-    captionDelay: 250,
+      captionsData: "alt",
+      captionDelay: 250,
     });
     lightbox.refresh();
 }
 
 export function clearGallery() {
-    gallery.innerHTML = '';
-};
+  gallery.innerHTML = '';
+}
 
 export function showLoader() {
-    loader.classList.remove("is-hidden");
-};
+  loader.classList.remove("is-hidden");
+}
 
 export function hideLoader() {
-    loader.classList.add("is-hidden");
+  loader.classList.add("is-hidden");
+}
+
+export function showLoadMoreButton() {
+  loadMore.classList.remove("is-hidden");
+}
+
+export function hideLoadMoreButton() {
+  loadMore.classList.add("is-hidden");
 }

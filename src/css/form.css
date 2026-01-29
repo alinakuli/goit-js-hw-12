@@ -58,3 +58,9 @@ button {
 button:hover {
     background-color: #6c8cff;
 }
+
+.load-more {
+    margin-top: 32px;
+    width: 125px;
+    height: 40px;
+}
