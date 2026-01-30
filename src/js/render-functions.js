@@ -6,7 +6,7 @@ const loader = document.querySelector(".loader");
 export const loadMore = document.querySelector(".load-more");
 
 export function createGallery(images) {
-    const markup = images.hits.map(image => `<li class="gallery-item">
+    const markup = images.map(image => `<li class="gallery-item">
   <a class="gallery-link" href="${image.largeImageURL}">
     <img
       class="gallery-image"

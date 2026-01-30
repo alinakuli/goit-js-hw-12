@@ -16,17 +16,18 @@ form.addEventListener("submit", async (event) => {
     try {
         event.preventDefault();
         hideLoadMoreButton();
-        page = 1;
+
         query = form.elements["search-text"].value.trim();
         if (!query) return;
-        form.reset()
+
+        page = 1;
         clearGallery()
         showLoader()
 
         const images = await getImagesByQuery(query, page);
         
         
-        if (images.hits.length === 0) {
+        if (!images.hits.length) {
             hideLoader()
             iziToast.error(
                 {
@@ -41,14 +42,19 @@ form.addEventListener("submit", async (event) => {
 
         totalPages = Math.ceil(images.totalHits / perPage);
 
-        createGallery(images)
+        createGallery(images.hits)
         hideLoader()
         showLoadMoreButton()
         page += 1;
         checkForPages(page, totalPages)
 
+        form.reset()
+
     } catch (error) {
-        return iziToast.error(
+        hideLoader()
+        console.log(error);
+        
+            iziToast.error(
                 {
                     message: 'Something went wrong',
                     titleColor: '#fff',
@@ -56,24 +62,31 @@ form.addEventListener("submit", async (event) => {
                     backgroundColor: '#ef4040',
                 })
         
+        return;
     };
 
 })
 
 loadMore.addEventListener("click", async (event) => {
     try {
-    const images = await getImagesByQuery(query, page);
         showLoader()
-        createGallery(images)
+        hideLoadMoreButton()
+
+        const images = await getImagesByQuery(query, page);
+        createGallery(images.hits)
+
+        showLoadMoreButton()
         hideLoader()
         page += 1;
         checkForPages(page, totalPages)
         smoothScroll();
+
         return;
     } catch (error) {
-        console.log(error);
+        hideLoader();
         
         return iziToast.error(
+            
                 {
                     message: 'Something went wrong',
                     titleColor: '#fff',
@@ -86,6 +99,7 @@ loadMore.addEventListener("click", async (event) => {
 function checkForPages(page, totalPages) {
     if (page > totalPages) {
         hideLoadMoreButton()
+
             return iziToast.error(
                 {
                     message: "We're sorry, but you've reached the end of search results.",

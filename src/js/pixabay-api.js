@@ -11,13 +11,14 @@ export async function getImagesByQuery(query, page) {
                 q: query,
                 image_type: "photo",
                 orientation: "horizontal",
-                safesearch: "true",
+                safesearch: true,
                 page: page,
                 per_page: 15,
             }
         });
+        
         return response.data;
     } catch (error) {
-        return error;
+        throw new Error("getImagesByQuery");
     }
 }
