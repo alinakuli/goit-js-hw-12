@@ -16,9 +16,9 @@ export async function getImagesByQuery(query, page) {
                 per_page: 15,
             }
         });
-        
+
         return response.data;
     } catch (error) {
-        throw new Error("getImagesByQuery");
+        throw error;
     }
 }
