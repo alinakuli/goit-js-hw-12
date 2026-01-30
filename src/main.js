@@ -15,7 +15,6 @@ let totalPages;
 form.addEventListener("submit", async (event) => {
     try {
         event.preventDefault();
-        hideLoadMoreButton();
 
         query = form.elements["search-text"].value.trim();
         if (!query) return;
@@ -23,6 +22,7 @@ form.addEventListener("submit", async (event) => {
         page = 1;
         clearGallery()
         showLoader()
+        hideLoadMoreButton();
 
         const images = await getImagesByQuery(query, page);
         
